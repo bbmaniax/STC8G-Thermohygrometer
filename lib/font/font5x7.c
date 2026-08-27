@@ -1,0 +1,93 @@
+// Font5x7
+
+#ifdef __INTELLISENSE__
+#define __SDCC_SYNTAX_FIX
+#endif
+
+#include "font5x7.h"
+
+typedef enum {
+    FONT5X7_INDEX_INVALID = -1,
+    FONT5X7_INDEX_DEGREE = 0,
+    FONT5X7_INDEX_SPACE,
+    FONT5X7_INDEX_PERCENT,
+    FONT5X7_INDEX_MINUS,
+    FONT5X7_INDEX_PERIOD,
+    FONT5X7_INDEX_DIGIT_0,
+    FONT5X7_INDEX_C = FONT5X7_INDEX_DIGIT_0 + 10,
+    FONT5X7_INDEX_P,
+    FONT5X7_INDEX_H,
+} Font5x7_Index;
+
+int8_t Font5x7_getIndex(char c)
+{
+    if (c == CHAR_DEGREE)
+        return FONT5X7_INDEX_DEGREE;
+
+    if (c >= '0' && c <= '9')
+        return c - '0' + FONT5X7_INDEX_DIGIT_0;
+
+    switch (c)
+    {
+    case ' ':
+        return FONT5X7_INDEX_SPACE;
+    case '%':
+        return FONT5X7_INDEX_PERCENT;
+    case '-':
+        return FONT5X7_INDEX_MINUS;
+    case '.':
+        return FONT5X7_INDEX_PERIOD;
+    case 'C':
+        return FONT5X7_INDEX_C;
+    case 'P':
+        return FONT5X7_INDEX_P;
+    case 'h':
+        return FONT5X7_INDEX_H;
+    default:
+        return FONT5X7_INDEX_INVALID;
+    }
+}
+
+const __CODE uint8_t Font5x7_getData(int8_t index)
+{
+    return font5x7[index * FONT5X7_WIDTH];
+}
+
+const __CODE uint8_t font5x7[] = {
+    // 0x01 (degree symbol)
+    0x06, 0x09, 0x09, 0x06, 0x00,
+    // 0x20 ' '
+    0x00, 0x00, 0x00, 0x00, 0x00,
+    // 0x25 '%'
+    0x23, 0x13, 0x08, 0x64, 0x62,
+    // 0x2D '-'
+    0x08, 0x08, 0x08, 0x08, 0x08,
+    // 0x2E '.'
+    0x00, 0x60, 0x60, 0x00, 0x00,
+    // 0x30 '0'
+    0x3E, 0x51, 0x49, 0x45, 0x3E,
+    // 0x31 '1'
+    0x00, 0x42, 0x7F, 0x40, 0x00,
+    // 0x32 '2'
+    0x42, 0x61, 0x51, 0x49, 0x46,
+    // 0x33 '3'
+    0x21, 0x41, 0x45, 0x4B, 0x31,
+    // 0x34 '4'
+    0x18, 0x14, 0x12, 0x7F, 0x10,
+    // 0x35 '5'
+    0x27, 0x45, 0x45, 0x45, 0x39,
+    // 0x36 '6'
+    0x3C, 0x4A, 0x49, 0x49, 0x30,
+    // 0x37 '7'
+    0x01, 0x71, 0x09, 0x05, 0x03,
+    // 0x38 '8'
+    0x36, 0x49, 0x49, 0x49, 0x36,
+    // 0x39 '9'
+    0x06, 0x49, 0x49, 0x29, 0x1E,
+    // 0x43 'C'
+    0x3E, 0x41, 0x41, 0x41, 0x22,
+    // 0x50 'P'
+    0x7F, 0x09, 0x09, 0x09, 0x06,
+    // 0x68 'h'
+    0x7F, 0x08, 0x04, 0x04, 0x78,
+};
